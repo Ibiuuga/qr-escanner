@@ -21,6 +21,7 @@ document.getElementById('cams').addEventListener('change', (e) => {
 });
 
 document.getElementById('btnStart').addEventListener('click', async () => {
+  if (!cameraId) await loadCameras();
   if (!cameraId) return alert('No se detectó cámara.');
   const reader = document.getElementById('reader');
   html5QrCode = new Html5Qrcode(reader.id);
@@ -62,5 +63,6 @@ function updateStatus(text, color) {
   el.textContent = text;
   el.style.color = color;
 }
+
 
 window.addEventListener('load', loadCameras);
