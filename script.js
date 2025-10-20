@@ -103,3 +103,4 @@ btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
 
 start();
+
