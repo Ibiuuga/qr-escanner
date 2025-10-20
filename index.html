@@ -3,27 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Escáner Seideta</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Asistencia | Escáner</title>
   <script src="https://unpkg.com/html5-qrcode@2.3.8"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
 
     <header class="header">
       <div class="brand">
-        <img class="logo" src="logo.png">
-      </div>    
+        <div class="logo">QR</div>
         <div>
           <div class="title">Registro de Asistencia</div>
-          <div class="subtitle">Escanea el código del carnet</div>
+          <div class="subtitle">Escanea el código del carnet — <span class="hint">colores rojo & negro 🔥</span></div>
         </div>
       </div>
       <div class="spacer"></div>
     </header>
 
     <section class="card">
-      <div class="toolbar">        
+      <div class="toolbar">
         <div class="controls">
           <label for="cams">Cámara</label>
           <select id="cams" title="Selecciona cámara"></select>
@@ -39,25 +38,24 @@
           <div id="reader"></div>
         </div>
         <div class="panel">
-          <p class="muted" style="margin:10px 0 16px">            
+          <p class="muted" style="margin:10px 0 16px">
+            Consejo: usa la cámara trasera, mantén el QR dentro del marco. 
             El sistema vibrará y hará un beep al registrar.
           </p>
           <ul class="muted" style="line-height:1.7; padding-left:18px; margin:0">
             <li>Rojo intenso para acciones — <strong>Iniciar</strong>, <strong>Detener</strong>.</li>
-            <li>Estado: éxito (verde), aviso (amarillo), error (rojo).</li>            
+            <li>Badges de estado: éxito (verde), aviso (amarillo), error (rojo).</li>
+            <li>Modo oscuro para exteriores/interiores.</li>
           </ul>
         </div>
       </div>
 
       <div class="status">
         <div id="status" class="muted">Listo.</div>
-      </div>    
+      </div>
     </section>
   </div>
-<script src="script.js"></script>
+
+  <script src="script.js"></script>
 </body>
-</html
-
-
-
-
+</html>
