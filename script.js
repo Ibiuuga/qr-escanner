@@ -69,7 +69,7 @@ function onScanSuccess(decodedText){
   currentId = decodedText;
   setStatus('Enviando ID: ' + decodedText + ' …');
 
-  fetch(`${scriptURL}?id=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
+  fetch(`${scriptURL}?doc=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
     .then(async res => {
       const txt = await res.text();
       try{
@@ -103,4 +103,3 @@ btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
 
 start();
-
