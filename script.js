@@ -40,7 +40,14 @@ async function start(){
     document.querySelector('.stage').classList.add('ring');
     setStatus('Cámara iniciada. Escanea un QR.');
   } catch (e) {
-    setStatus('Error al iniciar cámara. Asegúrate de tener permisos: ' + e, 'err');
+    setStatus('Error al iniciar cámara: ' + e + '. Intentando cámara por defecto...', 'warn');
+    try{
+      await html5QrCode.start({},{ fps: 12, qrbox: 280 }, onScanSuccess);
+      document.querySelector('.stage').classList.add('ring');
+      setStatus('Cámara iniciada. Escanea un QR.');
+    } catch(e2){
+      setStatus('Fallo al iniciar cualquier cámara. Asegúrate de tener permisos: ' + e2, 'err');
+    }
   }
 }
 
