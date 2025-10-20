@@ -1,83 +1,115 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbwkU1LW7ac243VFPpZAyDlWC7fQihMxyEknVIGvb5Oq33jgvAKAAz_3xCSZaY78yocP/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
 
-let html5QrCode;
-let cameraId = null;
+const statusEl = document.getElementById("status");
+const camsSel  = document.getElementById("cams");
+const btnStart = document.getElementById("btnStart");
+const btnStop  = document.getElementById("btnStop");
 
-async function loadCameras() {
+let html5QrCode = null;
+let currentId = null;
+
+function ping(type="ok"){
+  try { navigator.vibrate && navigator.vibrate(type==="ok" ? 40 : 120); } catch {}
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const o = ctx.createOscillator(); const g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination);
+  o.type = "triangle"; o.frequency.value = (type==="ok"? 880 : 220);
+  g.gain.setValueAtTime(0.0001, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.20);
+  o.start(); setTimeout(()=>{ o.stop(); ctx.close(); }, 210);
+}
+
+function setStatus(html, mode){
+  statusEl.className = '';
+  let cls = 'badge ';
+  if      (mode==='ok')   cls += 'ok';
+  else if (mode==='warn') cls += 'warn';
+  else if (mode==='err')  cls += 'err';
+  else { statusEl.textContent = html; return; }
+  statusEl.innerHTML = `<span class="${cls}">${html}</span>`;
+}
+
+async function listCams(){
   try {
-    // solicita permiso de cámara explícitamente antes de listar dispositivos
-    await navigator.mediaDevices.getUserMedia({ video: true });
     const devices = await Html5Qrcode.getCameras();
-    const select = document.getElementById('cams');
-    select.innerHTML = '';
-    devices.forEach((d) => {
-      const option = document.createElement('option');
-      option.value = d.id;
-      option.text = d.label || `Cámara ${select.length + 1}`;
-      select.appendChild(option);
+    camsSel.innerHTML = "";
+    if (!devices.length){
+      setStatus('No se detectó cámara o faltan permisos.', 'err');
+      return;
+    }
+    devices.forEach((d,i) => {
+      const opt = document.createElement('option');
+      opt.value = d.id; opt.textContent = d.label || `Cámara ${i+1}`;
+      camsSel.appendChild(opt);
     });
-    if (devices.length > 0) {
-      cameraId = devices[0].id;
-      updateStatus('Cámaras detectadas: ' + devices.length, 'green');
-    } else {
-      updateStatus('No se detectaron cámaras.', 'red');
-    }
-  } catch (err) {
-    updateStatus('Error al acceder a la cámara: ' + err.message, 'red');
-  }
-}
-
-document.getElementById('cams').addEventListener('change', (e) => {
-  cameraId = e.target.value;
-});
-
-document.getElementById('btnStart').addEventListener('click', async () => {
-  try {
-    if (!cameraId) await loadCameras();
-    if (!cameraId) return updateStatus('No se detectó cámara.', 'red');
-
-    const reader = document.getElementById('reader');
-    html5QrCode = new Html5Qrcode(reader.id);
-
-    await html5QrCode.start(
-      cameraId,
-      { fps: 10, qrbox: 250 },
-      (decodedText) => onScanSuccess(decodedText)
-    );
-    updateStatus('Escaneando...', 'yellow');
-  } catch (err) {
-    updateStatus('Error al iniciar cámara: ' + err.message, 'red');
-  }
-});
-
-document.getElementById('btnStop').addEventListener('click', async () => {
-  if (html5QrCode) {
-    await html5QrCode.stop();
-    await html5QrCode.clear();
-    updateStatus('Escaneo detenido.', 'gray');
-  }
-});
-
-async function onScanSuccess(data) {
-  updateStatus('Código leído. Enviando...', 'yellow');
-  try {
-    const response = await fetch(scriptURL + '?id=' + encodeURIComponent(data));
-    const result = await response.json();
-    if (result.status === 'success') {
-      navigator.vibrate?.(100);
-      updateStatus('Registrado ✅', 'green');
-    } else {
-      updateStatus('Error: ' + result.message, 'red');
-    }
+    setStatus('Cámaras detectadas: ' + devices.length);
   } catch (e) {
-    updateStatus('Error de conexión.', 'red');
+    setStatus('Error al listar cámaras: ' + e, 'err');
   }
 }
 
-function updateStatus(text, color) {
-  const el = document.getElementById('status');
-  el.textContent = text;
-  el.style.color = color;
+async function start(){
+  try {
+    if (html5QrCode) await stop();
+    html5QrCode = new Html5Qrcode("reader");
+    const camId = camsSel.value || { facingMode: "environment" };
+    await html5QrCode.start(camId, { fps: 12, qrbox: 280 }, onScanSuccess);
+    document.querySelector('.stage').classList.add('ring');
+    setStatus('Cámara iniciada. Escanea un QR.');
+  } catch (e) {
+    setStatus('Error al iniciar cámara: ' + e, 'err');
+  }
 }
 
-window.addEventListener('load', loadCameras);
+async function stop(){
+  try {
+    if (html5QrCode && html5QrCode.isScanning){
+      await html5QrCode.stop(); await html5QrCode.clear();
+    }
+    html5QrCode = null;
+    document.querySelector('.stage').classList.remove('ring');
+    setStatus('Cámara detenida.');
+  } catch (e) {
+    setStatus('Error al detener cámara: ' + e, 'err');
+  }
+}
+
+function onScanSuccess(decodedText){
+  if (!decodedText || decodedText === currentId) return;
+  currentId = decodedText;
+  setStatus('Enviando ID: ' + decodedText + ' …');
+
+  fetch(`${scriptURL}?id=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
+    .then(async res => {
+      const txt = await res.text();
+      try{
+        const data = JSON.parse(txt);
+        if (data.ok){
+          if (data.dup){
+            ping('warn');
+            setStatus(`⚠️ Ya registrado hoy: ${data.nombre} (${data.curso})`, 'warn');
+          }else{
+            ping('ok');
+            setStatus(`✅ Asistencia de ${data.nombre} (${data.curso}) registrada.`, 'ok');
+          }
+        }else{
+          ping('err');
+          setStatus('❌ ' + (data.error || 'Desconocido'), 'err');
+        }
+      }catch{
+        ping('err');
+        setStatus('❌ Respuesta no-JSON: ' + txt.slice(0,120) + ' …', 'err');
+      }
+      setTimeout(()=> currentId = null, 1400);
+    })
+    .catch(err => {
+      ping('err');
+      setStatus('❌ Failed to fetch: ' + err.message, 'err');
+      setTimeout(()=> currentId = null, 1400);
+    });
+}
+
+btnStart.addEventListener('click', start);
+btnStop .addEventListener('click', stop);
+listCams();
