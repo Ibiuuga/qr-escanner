@@ -9,9 +9,9 @@
   --ok:#19d37f;
   --warn:#f6c344;
   --err:#ff4d4f;
-  --radius:10px; /* Reducido un poco más */
-  --shadow: 0 6px 16px rgba(0,0,0,.35); /* Sombra más suave */
-  --glass: 0 8px 25px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.03); /* Efecto vidrio más sutil */
+  --radius:12px; /* Reducido de 16px */
+  --shadow: 0 8px 20px rgba(0,0,0,.4); /* Sombra ligeramente más pequeña */
+  --glass: 0 10px 30px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.04); /* Efecto vidrio más sutil */
   --ring:0 0 0 2px rgba(229,9,20,.35);
   --grad: radial-gradient(1200px 600px at 110% -10%, rgba(229,9,20,.14), transparent 50%),
               radial-gradient(900px 400px at -10% 110%, rgba(229,9,20,.10), transparent 50%);
@@ -19,27 +19,27 @@
 *{ box-sizing:border-box }
 html,body{ height:100% }
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  margin:0; 
+  background:var(--bg); 
+  color:var(--text); 
+  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial; /* Tamaño de fuente base reducido a 14px */
   background-image: var(--grad);
   background-attachment: fixed;
 }
-.container{ max-width:980px; margin:0 auto; padding:12px 10px 20px } /* Padding general más reducido */
+.container{ max-width:980px; margin:0 auto; padding:16px 12px 24px } /* Padding general reducido */
 .header{
-  display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; /* Espacios reducidos */
+  display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; /* Espacios reducidos */
 }
 .brand{
-  display:flex; align-items:center; gap:6px; /* Espacio entre logo y texto más reducido */
+  display:flex; align-items:center; gap:8px; /* Espacio entre logo y texto reducido */
 }
 .logo{
-  width:32px; height:32px; border-radius:8px; /* Logo aún más pequeño */
+  width:36px; height:36px; border-radius:10px; /* Logo más pequeño */
   object-fit:cover;
   box-shadow:var(--shadow);
 }
-.title{ font-weight:800; font-size: clamp(17px, 2.2vw, 22px) } /* Rango de título más pequeño */
-.subtitle{ color:var(--muted); font-size:11px } /* Subtítulo aún más pequeño */
+.title{ font-weight:800; font-size: clamp(18px, 2.4vw, 24px) } /* Rango de título más pequeño */
+.subtitle{ color:var(--muted); font-size:12px } /* Subtítulo más pequeño */
 .card{
   background:linear-gradient(180deg, #1a1a1f 0%, #141418 100%);
   border-radius: var(--radius);
@@ -48,9 +48,9 @@ body{
   overflow: hidden;
 }
 .toolbar{
-  display:flex; flex-wrap:wrap; gap:8px;
+  display:flex; flex-wrap:wrap; gap:8px; /* Espacio reducido */
   align-items:center; justify-content:flex-end;
-  padding:8px 10px; /* Padding de barra reducido */
+  padding:10px 12px; /* Padding de barra reducido */
   background:linear-gradient(180deg,#121214,#0e0e10);
   border-bottom:1px solid rgba(255,255,255,.06);
 }
@@ -58,16 +58,16 @@ body{
 label{ color:var(--muted); font-size:12px }
 select,button{
   appearance:none; border:none; outline:none;
-  background:#1f1f24; color:var(--text); padding:7px 9px; border-radius:8px; /* Padding de botones/selects reducido */
+  background:#1f1f24; color:var(--text); padding:8px 10px; border-radius:10px; /* Padding de botones/selects reducido */
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
 }
-select{ min-width: 120px; }
+select{ min-width: 140px; }
 button{
   cursor:pointer; transition: transform .08s ease, box-shadow .12s ease, background .12s ease;
 }
 .btn-primary{
   background: linear-gradient(180deg, var(--accent) 0%, #b30711 100%);
-  box-shadow: 0 4px 14px rgba(229,9,20,.25); /* Sombra de botón más sutil */
+  box-shadow: 0 5px 18px rgba(229,9,20,.3); /* Sombra de botón más sutil */
   font-weight: 700;
 }
 .btn-primary:hover{ background: linear-gradient(180deg, var(--accent-2), #c00f1b) }
@@ -76,51 +76,27 @@ button{
 }
 button:active{ transform: translateY(1px) }
 
-.scanner-wrap{
-  padding:10px; /* Padding reducido alrededor del escáner */
-  display:grid; 
-  grid-template-columns: 1fr; 
-  /* Agregamos padding-bottom para separar el contenido del escáner en móvil */
-  padding-bottom: 0; 
-}
+.scanner-wrap{ padding:12px; display:grid; grid-template-columns: 1fr; } /* Padding reducido */
 .stage{
-  width:min(90vw, 300px); /* Ancho máximo más pequeño para pantallas móviles */
-  max-width: 300px; /* Asegura un tamaño máximo fijo en móviles */
-  aspect-ratio: 1 / 1; /* Esto hace que el área sea cuadrada */
+  width:min(95vw, 500px); /* Ancho máximo en móvil aumentado ligeramente, pero máximo absoluto reducido */
   margin: 8px auto 4px;
-  border-radius:12px;
+  border-radius:14px; /* Radio reducido */
   overflow:hidden;
   box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.06);
   background: #0f0f12;
 }
-#reader video, #reader .qr-shaded-region{ border-radius:8px !important; } /* Borde más pequeño para el video */
-#reader{ width:100%; height:100%; } /* Aseguramos que ocupe el 100% del stage cuadrado */
-
-
-/* Nuevos estilos para el panel de información para darle más espacio vertical */
-.panel{
-  padding: 0 10px 10px; /* Ajustamos el padding para el panel en móvil */
-  text-align: center; /* Centramos el texto para una mejor lectura en móvil */
-}
-.panel p, .panel ul {
-  margin: 8px 0; /* Margen reducido para los párrafos y listas en el panel */
-  padding-left: 0; /* Eliminar padding a la izquierda en la lista para que se centre mejor */
-  font-size: 12px; /* Texto del panel ligeramente más pequeño */
-}
-.panel ul {
-  list-style: none; /* Quitamos los puntos de la lista para ahorrar espacio */
-}
-
+#reader video, #reader .qr-shaded-region{ border-radius:10px !important; }
+#reader{ width:100%; }
 
 .status{
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  padding:8px; text-align:center; min-height:36px; /* Altura mínima y padding reducido */
+  display:flex; align-items:center; justify-content:center; gap:6px; /* Espacio reducido */
+  padding:10px; text-align:center; min-height:40px; /* Altura mínima y padding reducido */
   border-top:1px solid rgba(255,255,255,.06);
   background: #121215;
 }
 .badge{
-  display:inline-flex; align-items:center; gap:6px; padding:5px 7px; border-radius:999px; /* Padding de badge reducido */
-  font-weight:700; letter-spacing:.1px; font-size:11px; /* Fuente de badge más pequeña */
+  display:inline-flex; align-items:center; gap:6px; padding:6px 8px; border-radius:999px; /* Padding de badge reducido */
+  font-weight:700; letter-spacing:.1px; font-size:12px; /* Fuente de badge más pequeña */
 }
 .ok   { background: rgba(25,211,127,.12); color:#9ef3cc; box-shadow: inset 0 0 0 1px rgba(25,211,127,.24) }
 .warn { background: rgba(246,195,68,.12); color:#ffe29c; box-shadow: inset 0 0 0 1px rgba(246,195,68,.22) }
@@ -129,45 +105,15 @@ button:active{ transform: translateY(1px) }
 
 .spacer{ flex:1 }
 .ring{ box-shadow: var(--ring) }
-.hint{ color:var(--muted); font-size:10px; } /* Hint aún más pequeño */
+.hint{ color:var(--muted); font-size:11px; }
 
 @media (min-width: 900px){
-  /* Restablecemos los estilos para pantallas grandes, si es necesario */
-  body{ font-size: 16px; }
-  .container{ padding:22px 16px 34px }
-  .header{ margin-bottom:18px; }
-  .brand{ gap:12px; }
-  .logo{ width:42px; height:42px; border-radius:12px; }
-  .title{ font-size: clamp(20px, 2.6vw, 28px) }
-  .subtitle{ font-size:14px }
-  .toolbar{ padding:14px 14px; }
-  select, button{ padding:10px 12px; border-radius:12px; }
-  .btn-primary{ box-shadow: 0 7px 24px rgba(229,9,20,.35); }
   .scanner-wrap{
-    padding:16px; /* Restaurar padding en desktop */
     grid-template-columns: 1fr 1fr;
     align-items: center;
   }
-  .stage{
-    width:min(92vw, 560px); /* Ancho original en desktop */
-    max-width: none; /* Eliminar max-width fijo en desktop */
-    aspect-ratio: auto; /* Desactivar aspecto cuadrado en desktop */
-    border-radius:18px;
-  }
-  #reader video, #reader .qr-shaded-region{ border-radius:14px !important; }
   .panel{
     padding: 18px 18px 18px 0;
     text-align:left;
   }
-  .panel p, .panel ul {
-    margin:10px 0 16px;
-    padding-left:18px;
-    font-size: inherit; /* Heredar el tamaño de fuente base */
-  }
-  .panel ul {
-    list-style: initial; /* Restaurar los puntos de la lista */
-  }
-  .status{ padding:12px; min-height:48px; }
-  .badge{ padding:8px 10px; font-size:14px; }
-  .hint{ font-size:12px; }
 }
