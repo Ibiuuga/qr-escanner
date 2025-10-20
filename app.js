@@ -4,16 +4,27 @@ let html5QrCode;
 let cameraId = null;
 
 async function loadCameras() {
-  const devices = await Html5Qrcode.getCameras();
-  const select = document.getElementById('cams');
-  select.innerHTML = '';
-  devices.forEach((d) => {
-    const option = document.createElement('option');
-    option.value = d.id;
-    option.text = d.label || `Cámara ${select.length + 1}`;
-    select.appendChild(option);
-  });
-  if (devices.length > 0) cameraId = devices[0].id;
+  try {
+    // solicita permiso de cámara explícitamente antes de listar dispositivos
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    const devices = await Html5Qrcode.getCameras();
+    const select = document.getElementById('cams');
+    select.innerHTML = '';
+    devices.forEach((d) => {
+      const option = document.createElement('option');
+      option.value = d.id;
+      option.text = d.label || `Cámara ${select.length + 1}`;
+      select.appendChild(option);
+    });
+    if (devices.length > 0) {
+      cameraId = devices[0].id;
+      updateStatus('Cámaras detectadas: ' + devices.length, 'green');
+    } else {
+      updateStatus('No se detectaron cámaras.', 'red');
+    }
+  } catch (err) {
+    updateStatus('Error al acceder a la cámara: ' + err.message, 'red');
+  }
 }
 
 document.getElementById('cams').addEventListener('change', (e) => {
@@ -21,17 +32,22 @@ document.getElementById('cams').addEventListener('change', (e) => {
 });
 
 document.getElementById('btnStart').addEventListener('click', async () => {
-  if (!cameraId) await loadCameras();
-  if (!cameraId) return alert('No se detectó cámara.');
-  const reader = document.getElementById('reader');
-  html5QrCode = new Html5Qrcode(reader.id);
+  try {
+    if (!cameraId) await loadCameras();
+    if (!cameraId) return updateStatus('No se detectó cámara.', 'red');
 
-  await html5QrCode.start(
-    cameraId,
-    { fps: 10, qrbox: 250 },
-    (decodedText) => onScanSuccess(decodedText)
-  );
-  updateStatus('Escaneando...', 'yellow');
+    const reader = document.getElementById('reader');
+    html5QrCode = new Html5Qrcode(reader.id);
+
+    await html5QrCode.start(
+      cameraId,
+      { fps: 10, qrbox: 250 },
+      (decodedText) => onScanSuccess(decodedText)
+    );
+    updateStatus('Escaneando...', 'yellow');
+  } catch (err) {
+    updateStatus('Error al iniciar cámara: ' + err.message, 'red');
+  }
 });
 
 document.getElementById('btnStop').addEventListener('click', async () => {
@@ -63,6 +79,5 @@ function updateStatus(text, color) {
   el.textContent = text;
   el.style.color = color;
 }
-
 
 window.addEventListener('load', loadCameras);
