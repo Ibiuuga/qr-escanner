@@ -1,6 +1,7 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbwkU1LW7ac243VFPpZAyDlWC7fQihMxyEknVIGvb5Oq33jgvAKAAz_3xCSZaY78yocP/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
 
 const statusEl = document.getElementById("status");
+// Se eliminó: const camsSel = document.getElementById("cams");
 const btnStart = document.getElementById("btnStart");
 const btnStop = document.getElementById("btnStop");
 
@@ -34,12 +35,14 @@ async function start(){
     if (html5QrCode) await stop();
     html5QrCode = new Html5Qrcode("reader");
     
+    // **CORRECCIÓN CLAVE:** Usamos directamente el objeto de configuración
     const camConstraint = { facingMode: "environment" };
 
     await html5QrCode.start(camConstraint, { fps: 12, qrbox: 280 }, onScanSuccess);
     document.querySelector('.stage').classList.add('ring');
     setStatus('Cámara iniciada. Escanea un QR.');
   } catch (e) {
+    // Si la restricción 'environment' falla (ej. en desktop), probamos la cámara por defecto
     setStatus('Error al iniciar cámara: ' + e + '. Intentando cámara por defecto...', 'warn');
     try{
       await html5QrCode.start({},{ fps: 12, qrbox: 280 }, onScanSuccess);
@@ -69,7 +72,7 @@ function onScanSuccess(decodedText){
   currentId = decodedText;
   setStatus('Enviando ID: ' + decodedText + ' …');
 
-  fetch(`${scriptURL}?doc=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
+  fetch(`${scriptURL}?id=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
     .then(async res => {
       const txt = await res.text();
       try{
@@ -102,4 +105,4 @@ function onScanSuccess(decodedText){
 btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
 
-start();
+start(); // Inicia automáticamente
