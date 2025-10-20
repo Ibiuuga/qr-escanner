@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwkU1LW7ac243VFPpZAyDlWC7fQihMxyEknVIGvb5Oq33jgvAKAAz_3xCSZaY78yocP/exec";
 
 const statusEl = document.getElementById("status");
 const camsSel  = document.getElementById("cams");
@@ -113,3 +113,4 @@ function onScanSuccess(decodedText){
 btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
 listCams();
+
