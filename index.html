@@ -1,54 +1,47 @@
+ahora por favor fijate en los cambios que hice en el HTML y ayúdame a adaptar el CSS a ello; sobretodo quiero que me ayudes con el JS, pues como ves le quité los botones de selección de cámara al HTML, entonces quiero que cambies el JS para que seleccione automáticamente la cámara trasera:
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Escáner Seideta</title>
-  <script src="https://unpkg.com/html5-qrcode@2.3.8"></script>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Escáner Seideta</title>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container">
 
-    <header class="header">
-      <div class="brand">
-        <img class="logo" src="logo.png">
-        <div>
-          <div class="title">Registro de Asistencia</div>
-          <div class="subtitle">Escanea el código del carnet</div>
-        </div>
-      </div>
-      <div class="spacer"></div>
-    </header>
+    <header class="header">
+      <div class="brand">
+        <img class="logo" src="logo.png">
+        <div>
+          <div class="title">Registro de Asistencia</div>
+          <div class="subtitle">Escanea el código del carnet</div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </header>
 
-    <section class="card">
-      <div class="toolbar">        
-        <div class="controls">
-          <button id="btnStart" class="btn-primary">Iniciar</button>
-          <button id="btnStop" class="btn-ghost">Detener</button>
-        </div>
-      </div>
+    <section class="card">
+      <div class="toolbar">        
+        <div class="controls">
+          <button id="btnStart" class="btn-primary">Iniciar</button>
+          <button id="btnStop" class="btn-ghost">Detener</button>
+        </div>
+      </div>
 
-      <div class="scanner-wrap">
-        <div class="stage">
-          <div id="reader"></div>
-        </div>
-        <div class="panel">
-          <p class="muted" style="margin:10px 0 16px">            
-            El sistema vibrará y hará un beep al registrar.
-          </p>
-          <ul class="muted" style="line-height:1.7; padding-left:18px; margin:0">
-            <li>Estado: éxito (verde), aviso (amarillo), error (rojo).</li>
-          </ul>
-        </div>
-      </div>
+      <div class="scanner-wrap">
+        <div class="stage">
+          <div id="reader"></div>
+        </div>        
+      </div>
 
-      <div class="status">
-        <div id="status" class="muted">Listo.</div>
-      </div>
-    </section>
-  </div>
+      <div class="status">
+        <div id="status" class="muted">Listo.</div>
+      </div>
+    </section>
+  </div>
 
-  <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
