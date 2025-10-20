@@ -31,9 +31,10 @@ body{
   display:flex; align-items:center; gap:12px;
 }
 .logo{
-  width:42px; height:42px; border-radius:12px; background:linear-gradient(145deg,var(--accent),#a1060d);
+  /* Estilos adaptados para la etiqueta <img> */
+  width:42px; height:42px; border-radius:12px;
+  object-fit:cover; /* Asegura que la imagen se vea bien dentro de la caja */
   box-shadow:var(--shadow);
-  display:grid; place-items:center; font-weight:900; color:white; letter-spacing:1px;
 }
 .title{ font-weight:800; font-size: clamp(20px, 2.6vw, 28px) }
 .subtitle{ color:var(--muted); font-size:14px }
@@ -45,7 +46,7 @@ body{
   overflow: hidden;
 }
 .toolbar{
-  display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end; /* Alineado a la derecha ya que quitamos la cámara */
   padding:14px 14px; background:linear-gradient(180deg,#121214,#0e0e10);
   border-bottom:1px solid rgba(255,255,255,.06);
 }
