@@ -1,22 +1,36 @@
-* { box-sizing: border-box; }
+:root {
+  --red: #e63946;
+  --green: #2a9d8f;
+  --yellow: #ffbe0b;
+  --gray: #6c757d;
+  --bg: #121212;
+  --fg: #f1f1f1;
+  --card-bg: #1e1e1e;
+}
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background-color: #111;
-  color: #eee;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
-  max-width: 800px;
-  margin: auto;
+  width: 100%;
+  max-width: 480px;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .header {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .brand {
@@ -25,94 +39,11 @@ body {
 }
 
 .logo {
-  width: 48px;
-  height: 48px;
-  background-color: #b00020;
-  color: #fff;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.title {
-  font-size: 1.4em;
-  font-weight: 600;
-}
-
-.subtitle {
-  font-size: 0.9em;
-  color: #ccc;
-}
-
-.card {
-  background-color: #222;
-  padding: 20px;
+  width: 64px;
+  height: 64px;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.3);
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-select, button {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 0.95em;
-}
-
-.btn-primary {
-  background-color: #b00020;
-  color: #fff;
-}
-
-.btn-ghost {
-  background-color: #333;
-  color: #eee;
-}
-
-.stage {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 12px;
-}
-
-#reader {
-  width: 100%;
-  max-width: 400px;
-  border: 2px solid #b00020;
-  border-radius: 8px;
-}
-
-.panel {
-  font-size: 0.9em;
-}
-
-.muted {
-  color: #aaa;
-}
-
-.status {
-  margin-top: 12px;
-  text-align: center;
-  font-size: 1em;
-}
-
-.hint {
-  color: #b00020;
-}
+  background-image: url('logo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-r
