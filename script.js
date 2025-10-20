@@ -1,7 +1,6 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbwkU1LW7ac243VFPpZAyDlWC7fQihMxyEknVIGvb5Oq33jgvAKAAz_3xCSZaY78yocP/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
 
 const statusEl = document.getElementById("status");
-const camsSel = document.getElementById("cams");
 const btnStart = document.getElementById("btnStart");
 const btnStop = document.getElementById("btnStop");
 
@@ -30,35 +29,18 @@ function setStatus(html, mode){
   statusEl.innerHTML = `<span class="${cls}">${html}</span>`;
 }
 
-async function listCams(){
-  try {
-    const devices = await Html5Qrcode.getCameras();
-    camsSel.innerHTML = "";
-    if (!devices.length){
-      setStatus('No se detectó cámara o faltan permisos.', 'err');
-      return;
-    }
-    devices.forEach((d,i) => {
-      const opt = document.createElement('option');
-      opt.value = d.id; opt.textContent = d.label || `Cámara ${i+1}`;
-      camsSel.appendChild(opt);
-    });
-    setStatus('Cámaras detectadas: ' + devices.length);
-  } catch (e) {
-    setStatus('Error al listar cámaras: ' + e, 'err');
-  }
-}
-
 async function start(){
   try {
     if (html5QrCode) await stop();
     html5QrCode = new Html5Qrcode("reader");
-    const camId = camsSel.value || { facingMode: "environment" };
-    await html5QrCode.start(camId, { fps: 12, qrbox: 280 }, onScanSuccess);
+    
+    const camConstraint = { facingMode: "environment" };
+
+    await html5QrCode.start(camConstraint, { fps: 12, qrbox: 280 }, onScanSuccess);
     document.querySelector('.stage').classList.add('ring');
     setStatus('Cámara iniciada. Escanea un QR.');
   } catch (e) {
-    setStatus('Error al iniciar cámara: ' + e, 'err');
+    setStatus('Error al iniciar cámara. Asegúrate de tener permisos: ' + e, 'err');
   }
 }
 
@@ -112,4 +94,5 @@ function onScanSuccess(decodedText){
 
 btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
-listCams();
+
+start();
