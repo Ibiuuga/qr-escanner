@@ -1,49 +1,61 @@
-:root {
-  --red: #e63946;
-  --green: #2a9d8f;
-  --yellow: #ffbe0b;
-  --gray: #6c757d;
-  --bg: #121212;
-  --fg: #f1f1f1;
-  --card-bg: #1e1e1e;
+:root{
+  --bg:#0b0b0c;
+  --bg2:#121214;
+  --surface:#17171a;
+  --text:#f3f3f4;
+  --muted:#b7b7bc;
+  --accent:#e50914;
+  --accent-2:#ff2a36;
+  --ok:#19d37f;
+  --warn:#f6c344;
+  --err:#ff4d4f;
+  --radius:16px;
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+  --glass: 0 14px 40px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.04);
+  --ring:0 0 0 2px rgba(229,9,20,.35);
+  --grad: radial-gradient(1200px 600px at 110% -10%, rgba(229,9,20,.14), transparent 50%),
+          radial-gradient(900px 400px at -10% 110%, rgba(229,9,20,.10), transparent 50%);
+}
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  background-image:var(--grad);
+  background-attachment:fixed;
+}
+.container{ max-width:980px; margin:0 auto; padding:22px 16px 34px }
+.header{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+}
+.logo{
+  width:42px; height:42px; border-radius:12px;
+  box-shadow:var(--shadow);
+  display:block;
+  object-fit:cover;
+}
+.title{ font-weight:800; font-size:clamp(20px,2.6vw,28px) }
+.subtitle{ color:var(--muted); font-size:14px }
+
+.card{
+  background:linear-gradient(180deg,#1a1a1f 0%,#141418 100%);
+  border-radius:var(--radius);
+  box-shadow:var(--glass);
+  border:1px solid rgba(255,255,255,.06);
+  overflow:hidden;
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--bg);
-  color: var(--fg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+.controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; padding:14px }
 
-.container {
-  width: 100%;
-  max-width: 480px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  background-image: url('logo.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-r
+button{
+  appearance:none; border:none; outline:none;
+  background:#1f1f24; color:var(--text);
+  padding:10px 12px; border-radius:12px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .1
