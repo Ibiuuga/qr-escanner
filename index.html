@@ -6,6 +6,8 @@
   <title>Escáner Seideta</title>
   <script src="https://unpkg.com/html5-qrcode@2.3.8"></script>
   <link rel="stylesheet" href="style.css">
+ <link rel="manifest" href="manifest.json">
+ <meta name="theme-color" content="#800020">
 </head>
 <body>
   <div class="container">
@@ -41,7 +43,14 @@
     </section>
   </div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('Service Worker registrado correctamente.'))
+      .catch(err => console.error('Error al registrar el Service Worker:', err));
+  }
+</script>
 </body>
 </html>
 
