@@ -74,7 +74,8 @@ button:active{ transform: translateY(1px) }
 
 .scanner-wrap{ padding:16px; display:grid; grid-template-columns: 1fr; }
 .stage{
-  width:min(90vw, 560px);
+  width:min(70vw, 360px);
+  height: 240px;
   margin: 10px auto 4px;
   border-radius:18px; overflow:hidden;
   box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.06);
@@ -112,4 +113,5 @@ button:active{ transform: translateY(1px) }
     text-align:left;
   }
 }
+
 
