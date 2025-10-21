@@ -87,44 +87,39 @@ button:active{ transform: translateY(1px) }
   align-items: center;
 }
 .stage{
-  width:min(92vw, 560px);
+  width:min(90vw, 400px);
   margin: 10px auto 4px;
   border-radius:18px; overflow:hidden;
   box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.06);
   background: #0f0f12;
-  position: relative; /* Importante para el posicionamiento interno si la librería lo usa */
-  display: flex; /* Asegura que el #reader se centre si es necesario */
+  position: relative; 
+  display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 250px; /* Asegura una altura mínima si el video tarda en cargar */
+  min-height: 250px;
 }
 #reader{ 
   width:100%; 
-  height: 100%; /* Asegura que #reader ocupe todo el stage */
-  display: flex; /* Flex para centrar la región sombreada */
+  height: 100%; 
+  display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Para que la región sombreada se posicione correctamente dentro */
-  overflow: hidden; /* Muy importante para que no se desborde nada */
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- Ajuste clave para la región de escaneo --- */
-/* La clase 'qr-shaded-region' es interna de html5-qrcode. 
-   Forzamos su tamaño y centrado para que no se desborde. */
 #reader video, 
 #reader .qr-shaded-region{ 
   border-radius:14px !important; 
-  /* Asegura que la región sombreada se ajuste al 100% del espacio disponible 
-     dentro del #reader, con un padding para que no toque los bordes. */
-  width: calc(100% - 32px) !important; /* 16px de padding a cada lado */
-  height: calc(100% - 32px) !important; /* 16px de padding arriba y abajo */
-  max-width: 300px !important; /* Limita el tamaño máximo de la región de escaneo */
-  max-height: 300px !important; /* Limita el tamaño máximo de la región de escaneo */
+  max-width: 250px !important; 
+  max-height: 250px !important; 
+  width: calc(100% - 32px) !important; 
+  height: auto !important; 
   left: 50% !important;
   top: 50% !important;
-  transform: translate(-50%, -50%) !important; /* Centra la región */
-  object-fit: cover !important; /* Si fuera un video, lo ajusta */
-  position: absolute !important; /* Posicionamiento absoluto para centrar */
+  transform: translate(-50%, -50%) !important;
+  position: absolute !important; 
+  object-fit: cover !important;
 }
 
 .status{
