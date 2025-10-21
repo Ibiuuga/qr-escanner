@@ -1,7 +1,6 @@
 const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
 
 const statusEl = document.getElementById("status");
-// Se eliminó: const camsSel = document.getElementById("cams");
 const btnStart = document.getElementById("btnStart");
 const btnStop = document.getElementById("btnStop");
 
@@ -23,10 +22,10 @@ function ping(type="ok"){
 function setStatus(html, mode){
   statusEl.className = '';
   let cls = 'badge ';
-  if     (mode==='ok')   cls += 'ok';
+  if     (mode==='ok')   cls += 'ok';
   else if (mode==='warn') cls += 'warn';
-  else if (mode==='err')  cls += 'err';
-  else                    { statusEl.textContent = html; return; }
+  else if (mode==='err')  cls += 'err';
+  else                    { statusEl.textContent = html; return; }
   statusEl.innerHTML = `<span class="${cls}">${html}</span>`;
 }
 
@@ -34,15 +33,13 @@ async function start(){
   try {
     if (html5QrCode) await stop();
     html5QrCode = new Html5Qrcode("reader");
-    
-    // **CORRECCIÓN CLAVE:** Usamos directamente el objeto de configuración
+
     const camConstraint = { facingMode: "environment" };
 
     await html5QrCode.start(camConstraint, { fps: 12, qrbox: 280 }, onScanSuccess);
     document.querySelector('.stage').classList.add('ring');
     setStatus('Cámara iniciada. Escanea un QR.');
   } catch (e) {
-    // Si la restricción 'environment' falla (ej. en desktop), probamos la cámara por defecto
     setStatus('Error al iniciar cámara: ' + e + '. Intentando cámara por defecto...', 'warn');
     try{
       await html5QrCode.start({},{ fps: 12, qrbox: 280 }, onScanSuccess);
@@ -87,11 +84,11 @@ function onScanSuccess(decodedText){
           }
         }else{
           ping('err');
-          setStatus('❌ ' + (data.error || 'Desconocido'), 'err');
+          setStatus('❌ ' + (data.error || 'Error de registro desconocido.'), 'err');
         }
       }catch{
         ping('err');
-        setStatus('❌ Respuesta no-JSON: ' + txt.slice(0,120) + ' …', 'err');
+        setStatus('❌ Error al procesar la respuesta. Código no válido o URL incorrecta.', 'err');
       }
       setTimeout(()=> currentId = null, 1400);
     })
@@ -105,4 +102,4 @@ function onScanSuccess(decodedText){
 btnStart.addEventListener('click', start);
 btnStop .addEventListener('click', stop);
 
-start(); // Inicia automáticamente
+start();
