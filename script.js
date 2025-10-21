@@ -84,11 +84,11 @@ function onScanSuccess(decodedText){
           }
         }else{
           ping('err');
-          setStatus('❌ ' + (data.error || 'Error de registro desconocido.'), 'err');
+          setStatus('❌ ' + (data.error || 'Desconocido'), 'err');
         }
       }catch{
         ping('err');
-        setStatus('❌ Error al procesar la respuesta. Código no válido o URL incorrecta.', 'err');
+        setStatus('❌ Respuesta no-JSON: ' + txt.slice(0,120) + ' …', 'err');
       }
       setTimeout(()=> currentId = null, 1400);
     })
