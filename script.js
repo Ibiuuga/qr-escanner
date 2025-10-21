@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxXI02PvmTahgIFPPlOu4QLRNIXF6s50WWM2tkJdUayC6f3wvti3RWXEJDa4oglJzXDqA/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwF8ojwwGwpUlkJGrXJ9xG2C0oSo1h8ybppSRTJ4wJ_7vY_pc1mhtRVLzgpo1uvmpav/exec";
 
 const statusEl = document.getElementById("status");
 const btnStart = document.getElementById("btnStart");
@@ -69,7 +69,8 @@ function onScanSuccess(decodedText){
   currentId = decodedText;
   setStatus('Enviando ID: ' + decodedText + ' …');
 
-  fetch(`${scriptURL}?id=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
+  fetch(`${scriptURL}?doc=${encodeURIComponent(decodedText)}`, { cache:'no-store' })
+
     .then(async res => {
       const txt = await res.text();
       try{
