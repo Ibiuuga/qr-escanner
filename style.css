@@ -22,12 +22,12 @@ body{
   margin:0; background:var(--bg); color:var(--text); font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
   background-image: var(--grad);
   background-attachment: fixed;
-  padding: 0 16px; /* Añade padding horizontal para móvil */
+  padding: 0 16px;
 }
 .container{ 
   max-width:980px; 
   margin:0 auto; 
-  padding:20px 0 30px; /* Ajusta padding vertical */
+  padding:20px 0 30px;
 }
 .header{
   display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px;
@@ -51,7 +51,7 @@ body{
 }
 .toolbar{
   display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;
-  padding:14px; /* Padding simplificado */
+  padding:14px;
   background:linear-gradient(180deg,#121214,#0e0e10);
   border-bottom:1px solid rgba(255,255,255,.06);
 }
@@ -63,7 +63,7 @@ select,button{
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
 }
 select{ 
-  width: 100%; /* Asegura que el select tome el ancho completo en móvil */
+  width: 100%;
   max-width: 250px; 
 }
 button{
@@ -82,7 +82,7 @@ button:active{ transform: translateY(1px) }
 
 .scanner-wrap{ 
   padding:16px; 
-  display:flex; /* Usar flex para centrar los elementos verticalmente en una columna */
+  display:flex;
   flex-direction: column;
   align-items: center;
 }
@@ -92,9 +92,40 @@ button:active{ transform: translateY(1px) }
   border-radius:18px; overflow:hidden;
   box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.06);
   background: #0f0f12;
+  position: relative; /* Importante para el posicionamiento interno si la librería lo usa */
+  display: flex; /* Asegura que el #reader se centre si es necesario */
+  justify-content: center;
+  align-items: center;
+  min-height: 250px; /* Asegura una altura mínima si el video tarda en cargar */
 }
-#reader video, #reader .qr-shaded-region{ border-radius:14px !important; }
-#reader{ width:100%; }
+#reader{ 
+  width:100%; 
+  height: 100%; /* Asegura que #reader ocupe todo el stage */
+  display: flex; /* Flex para centrar la región sombreada */
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Para que la región sombreada se posicione correctamente dentro */
+  overflow: hidden; /* Muy importante para que no se desborde nada */
+}
+
+/* --- Ajuste clave para la región de escaneo --- */
+/* La clase 'qr-shaded-region' es interna de html5-qrcode. 
+   Forzamos su tamaño y centrado para que no se desborde. */
+#reader video, 
+#reader .qr-shaded-region{ 
+  border-radius:14px !important; 
+  /* Asegura que la región sombreada se ajuste al 100% del espacio disponible 
+     dentro del #reader, con un padding para que no toque los bordes. */
+  width: calc(100% - 32px) !important; /* 16px de padding a cada lado */
+  height: calc(100% - 32px) !important; /* 16px de padding arriba y abajo */
+  max-width: 300px !important; /* Limita el tamaño máximo de la región de escaneo */
+  max-height: 300px !important; /* Limita el tamaño máximo de la región de escaneo */
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important; /* Centra la región */
+  object-fit: cover !important; /* Si fuera un video, lo ajusta */
+  position: absolute !important; /* Posicionamiento absoluto para centrar */
+}
 
 .status{
   display:flex; align-items:center; justify-content:center; gap:8px;
@@ -117,13 +148,13 @@ button:active{ transform: translateY(1px) }
 
 @media (min-width: 900px){
   .scanner-wrap{
-    display: grid; /* Cambia a grid para el layout de dos columnas */
+    display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    gap: 16px; /* Espacio entre las columnas */
+    gap: 16px;
   }
   .stage{
-    width: 100%; /* Permite que tome el 1fr completo de la columna */
+    width: 100%;
     max-width: none;
   }
   .panel{
