@@ -72,7 +72,7 @@ button{
 }
 button:active{ transform: translateY(1px) }
 
-.scanner-wrap{ padding:16px; display:grid; grid-template-columns: 1fr; }
+.scanner-wrap{ padding:16px; display:grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)) }
 .stage{
   width:min(90vw, 560px);
   margin: 10px auto 4px;
